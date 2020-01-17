@@ -1,0 +1,62 @@
+version: "3"
+services:
+  app:
+    container_name: go
+    build: ./backend
+    ports:
+      - 8080:8080
+    restart: on-failure
+    volumes:
+      - ./backend:/usr/src/app/
+    depends_on:
+      - CRMplus-postgres
+    networks:
+      - CRMplus_api
+
+  CRMplus-postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=rodrigovalente
+      - POSTGRES_PASSWORD=Gustavo2012
+      - POSTGRES_DB=CRMplus
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    networks:
+      - CRMplus_api
+
+  # frontend:
+  #   build: ./frontend/books_react
+  #   container_name: react
+  #   volumes:
+  #     - ./frontend/books_react:/frontend/books_react/src
+  #   ports:
+  #     - "3000:3000"
+  #   restart: on-failure
+  #   networks:
+  #     - livros_api
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: rodrigovalente@hotmail.com
+      PGADMIN_DEFAULT_PASSWORD: Gustavo2012
+    depends_on:
+      - CRMplus-postgres
+    ports:
+      - "5050:80"
+    networks:
+      - CRMplus_api
+    restart: unless-stopped
+
+# volumes:
+#   books_be:
+#   books_psql:
+
+# Networks to be created to facilitate communication between containers
+networks:
+  CRMplus_api:
+    driver: bridge

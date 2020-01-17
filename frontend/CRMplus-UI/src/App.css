@@ -1,0 +1,16 @@
+p {
+  margin: 0px;
+}
+
+.form-container {
+  max-width: 500px;
+  margin: 2rem auto;
+  overflow: hidden;
+  padding: 0 2rem;
+}
+
+.form-container h1,
+h2,
+h3 {
+  text-align: center;
+}
